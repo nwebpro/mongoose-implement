@@ -138,17 +138,17 @@ db.practice.find({
 ```
 ## ```$set``` -> hocche database a age theke kono value thakle abong judi $set use kore update kora hoy tayle se purapuri update kore fele
 
-## ```$addToSet``` -> hocche database a age theke kono value thakle abong judi $addToSet use kore update kora hoy tayle se age check kore dekhe je same valu database a ace kina thakle update kore na ar na thakle update kore
+## ```$addToSet``` -> hocche database a age theke kono value thakle abong judi ```$addToSet``` use kore update kora hoy tayle se age check kore dekhe je same valu database a ace kina thakle update kore na ar na thakle update kore
 
-## ```$push``` -> hocche database a age theke kono value thakle abong judi $push use kore update kora hoy tayle se ager datar sathe match korle o se update kore dey 
+## ```$push``` -> hocche database a age theke kono value thakle abong judi ``$push`` use kore update kora hoy tayle se ager datar sathe match korle o se update kore dey 
 
-## ```$unset``` -> database collection a kono data abong field remove korte chay tahole amra $unset use korbo 
+## ```$unset``` -> database collection a kono data abong field remove korte chay tahole amra ``$unset`` use korbo 
 
-## ```$pop``` -> database er moddhe kono array field thakle tar moddhe theke sesh element ta remove korte chayle $pop use korbo abong apni judi $pop { data: 1 } use koro tayle last element remove hobe ar judi -1 use koro tayle protom element remove hobe
+## ```$pop``` -> database er moddhe kono array field thakle tar moddhe theke sesh element ta remove korte chayle $pop use korbo abong apni judi ``$pop { data: 1 }`` use koro tayle last element remove hobe ar judi ``-1`` use koro tayle protom element remove hobe
 
-## ```$pull``` -> database collection theke judi kono akta nirdisto data remove korte chay tahole $pull use korbo
+## ```$pull``` -> database collection theke judi kono akta nirdisto data remove korte chay tahole ``$pull`` use korbo
 
-## ```$pullAll``` -> hocche $pull er moto kaj kore kinto $pullAll multiple data remove korte kaje lage 
+## ```$pullAll``` -> hocche ``$pull`` er moto kaj kore kinto ``$pullAll`` multiple data remove korte kaje lage 
 
 
 ```js
