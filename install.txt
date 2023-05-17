@@ -1,0 +1,152 @@
+1. npm init -y
+2. npm install typescript --save-dev
+3. npm install express --save
+4. npm install mongoose --save
+5. npm i ts-node-dev 
+6. create src folder and create server.ts file then add this code to your file
+
+    const express = require('express')
+    const app = express()
+    const port = 5000
+
+    app.get('/', (req, res) => {
+    res.send('Hello World!')
+    })
+
+    app.listen(port, () => {
+    console.log(`Server is listening on port ${ port }`)
+    })
+
+7. open package.json and add this code "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+8. open mongoosejs.com/docs/index.html then add this code 
+
+    const mongoose = require('mongoose')
+    // database connection
+    async function main() {
+        try {
+            await mongoose.connect('mongodb://127.0.0.1:27017/mongoose-implement');
+            console.log(`Database Connection Successfully`)
+        } catch (error) {
+            console.log(`Database Connection Failed`)
+        }
+    }
+    main().catch(err => console.log(err));
+
+9. npm install cors
+10. npm i --save-dev @types/cors
+11. npm i --save-dev @types/express
+
+
+Interface - user.interface.ts
+Schema + Model - user.model.ts
+route + route handler - user.route.ts
+Database Query Function - user.service.ts
+
+instance methods -> instance er methods
+class -> instance + methods -> instance er methods
+
+
+insert and insertMany mongoose a kaj kore na kinto mongoDB te kore ar mongoose a save() methods kaj kore
+
+
+show databases
+use [dbname]
+db.getCollection('collectionName).find()
+db.getCollection('collectionName).find().limit(5)
+Tools name -> studio3t and no sql boster
+
+No SQL Boster Shortcut
+format -> alt + shift + f
+run -> ctrl + enter
+
+db.practice.find({ age: { $eq: 34 } }) // Equal Oparator usecase
+db.practice.find({ age: { $gt: 34 } }) // Greater Than Oparator usecase
+db.practice.find({ age: { $gte: 34 } }) // Greater Than or Equal Oparator usecase
+db.practice.find({ age: { $lt: 34 } }) // Less Than Oparator usecase
+db.practice.find({ age: { $lte: 34 } }).sort({ age: 1 }) // Less Than or Equal Oparator usecase // 1->accending -1->decending
+db.practice.find({ gender: { $ne: 'Female' } }).project({ gender: 1 }) // Not Equal Oparator usecase
+db.practice.find({ favoutiteColor: { $eq: 'Blue' } }, { favoutiteColor: 1 }) // Equal Oparator with filter
+
+db.practice.find({ age: { $in: [34, 35] } }) // In Oparator usecase
+db.practice.find({ age: { $nin: [34, 35] } }) // Not In Oparator usecase
+db.practice.find({  age: { $gt: 18 , $lt: 30 }}) // $gt and $lt er maj khane je [,] qoma use hoyche take bola hoy implicit and kinto jokhn aki name bar bar use hobe tokgn implicit and use kora jabe na 
+
+// multiple conditions
+db.practice.find({
+    gender: 'Female',
+    age: { $nin: [12, 3, 4, 7, 17, 18, 23, 34] },
+    interests: {
+        $in: ['Gaming', 'Travelling']
+    }
+}).project({
+    gender: 1,
+    age: 1,
+    interests: 1
+}).sort({
+    age: 1
+})
+
+// Logical Query Operator
+db.practice.find({
+    $and: [
+        { gender: 'Female' },
+        { age: { $lt: 30 } },
+        { 'skills.name': 'JAVASCRIPT' } // nested value access korte chayle ai vabe korte hobe
+    ]
+}).project({
+    gender: 1,
+    age: 1,
+    'skills.name': 1
+})
+
+// or
+db.practice.find({
+    $or: [
+        { gender: 'Female' },
+        { age: { $lt: 30 } },
+        { 'skills.name': 'JAVASCRIPT' }
+    ]
+}).project({
+    gender: 1,
+    age: 1,
+    'skills.name': 1
+})
+
+
+$exists // check kore je kono property ase kina aita check kore true or false
+$type // check kore je aita ki type er data 
+$size // er maddome array te dekhe je data ace naki nay
+$all // 
+$$elemMatch // er kaj hocche kono akta array of object theke match kore data show korte chayle ai method ta use kora hoy
+
+kono akta array te Travelling name a data ace kina abong aita koto number index gulate ace ta ber korar jonno amra nicher code ta follow korbo
+db.practice.find({
+    'interests.0': 'Travelling'
+}).project({
+    interests: 1
+})
+
+// $all abong $and pry same kaj kore chayle apni $all or $and use korte paren abong judi same field er onk valu show korte chan tahole $all use kora valo and easy
+db.practice.find({
+    interests: {
+        $all: ['Travelling', 'Cooking', 'Reading']
+    }
+}).project({
+    interests: 1
+})
+
+$set -> hocche database a age theke kono value thakle abong judi $set use kore update kora hoy tayle se purapuri update kore fele
+
+$addToSet -> hocche database a age theke kono value thakle abong judi $addToSet use kore update kora hoy tayle se age check kore dekhe je same valu database a ace kina thakle update kore na ar na thakle update kore
+
+$push -> hocche database a age theke kono value thakle abong judi $push use kore update kora hoy tayle se ager datar sathe match korle o se update kore dey 
+
+$unset -> database collection a kono data abong field remove korte chay tahole amra $unset use korbo 
+
+$pop -> database er moddhe kono array field thakle tar moddhe theke sesh element ta remove korte chayle $pop use korbo abong apni judi $pop { data: 1 } use koro tayle last element remove hobe ar judi -1 use koro tayle protom element remove hobe
+
+$pull -> database collection theke judi kono akta nirdisto data remove korte chay tahole $pull use korbo
+
+$pullAll -> hocche $pull er moto kaj kore kinto $pullAll multiple data remove korte kaje lage 
+
+

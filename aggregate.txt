@@ -1,0 +1,244 @@
+db.cousins.aggregate([
+    // Filter out cousins who have an exam
+    {
+        $match: {
+            hasExam: { $ne: true }
+        }
+    },
+    // Filter out cousins who have a budget less than or equal to 500
+    {
+        $match: {
+            budget: { $gt: 500 }
+        }
+    },
+    // Filter out cousins who are sick
+    { 
+        $match: {
+            isSick: { $ne: true }
+        }
+    },
+    // Calculate the total budget of the remaining cousins
+    {
+        $group: {
+            _id: null,
+            totalBudget: { $sum: '$budget' }
+        }
+    },
+    // Sort the remaining cousins by age in descending order
+    {
+        $sort: {
+            age: -1
+        }
+    },
+    // Limit the output to the tor 2 cousins
+    {
+        $limit: 2
+    }
+])
+
+// new field add salary in aggregate pipeline with new collection
+db.practice.aggregate([
+    // add field stage
+    {
+        $addFields: {
+            salary: {
+                $toInt: {
+                    $floor: {
+                        $multiply: [{ $rand: {} }, 100]
+                    }
+                }
+            }
+        }
+    },
+    {
+        $out: "salaryWithPractices"
+    }
+])
+
+// new field add salary in aggregate pipeline with existing collection
+db.practice.aggregate([
+    // add field stage
+    {
+        $addFields: {
+            salary: {
+                $toInt: {
+                    $floor: {
+                        $multiply: [{ $rand: {} }, 100]
+                    }
+                }
+            }
+        }
+    },
+    {
+        $merge: "practice"
+    }
+])
+
+// group stage with _id field and multiply field
+db.practice.aggregate([
+    // Group stage
+    {
+        $group: {
+            _id: {
+                age: '$age',
+                gender: '$gender'
+            }
+        }
+    }
+])
+
+// multiply field in group stage and multiple conditions
+db.practice.aggregate([
+    // match stage 
+    {
+        $match: {
+            age: {
+                $gt: 18
+            }
+        }
+    },
+    // Group stage
+    {
+        $group: {
+            _id: '$salary',
+            person: { $sum: 1 } // Accumulator
+        }
+    },
+    // Project Stage with field name change 
+    {
+        $project: {
+            _id: 0,
+            salary: '$_id',
+            person: 1,
+        }
+    },
+    // Sort Stage with id
+    {
+        $sort: {
+            _id: -1
+        }
+    },
+    // limit stage
+    {
+        $limit: 5
+    }
+])
+
+db.practice.aggregate([
+    {
+        $group: {
+            _id: null,
+            persons: {
+                $sum: '$salary',
+            },
+            maxSalary: {
+                $max: "$salary"
+            },
+            minSalary: {
+                $min: '$salary'
+            },
+            avgSalary: {
+                $avg: "$salary"
+            }
+        }
+    },
+    { 
+        $project: { 
+            persons: 1,
+            maxSalary: 1,
+            minSalary: 1,
+            avgSalary: 1,
+            salaryRang: {
+                $subtract: [ "$maxSalary", '$minSalary' ]
+            }
+        } 
+    }
+])
+
+// $unwide method er kaj hocche apner akta array ace friend name abong apni judi sey array te $unwind method apply koren tahole apner array te joto jon friend ace sobai k copy kore se akta akta kore data baniye nibe.
+db.practice.aggregate([
+    {
+        // unwind stage
+        $unwind: "$friends"
+    },
+    {
+        // group stage
+        $group: { 
+            _id: "$friends",
+            count: {
+                $sum: 1
+            }
+        }
+    }
+])
+
+// $facet oparator er maddome apni apner aggregation a multiple stage pipeline line create korte parben ta niche example dewa ace 
+db.practice.aggregate([
+    {
+        $match: {
+            _id: ObjectId('6406ad65fc13ae5a400000c6')
+        }
+    },
+    {
+        $facet: {
+            // Pipeline One
+            'friendsCount': [
+                {
+                    $project: {
+                        friendsCount: {
+                            $size: '$friends'
+                        }
+                    }
+                }
+            ],
+            // Pipeline Tow
+            'interestsCount': [
+                {
+                    $project: {
+                        interestsCount: {
+                            $size: "$interests"
+                        }
+                    }
+                }
+            ],
+            // Pipeline Three
+            'skillsCount': [
+                {
+                    $project: {
+                        skillsCount: {
+                            $size: "$skills"
+                        }
+                    }
+                }
+            ],
+            // Pipeline Four 
+            'languagesCount': [
+                {
+                    $project: {
+                        languagesCount: {
+                            $size: "$languages"
+                        }
+                    }
+                }    
+            ]
+        },
+    }
+])
+
+// $lookup operator hocche kono akta document theke kicho ber korte chayle amra lookup oparator use korte pari abong document ta kono akta field er sathe refarance thakte hobe abong lookup chalaite hole apnake 1 er odik collection thakte hobe abong sathe field name abong type same hote hobe nayto lookup oparator kaj korbe nah 
+db.practice.aggregate([
+    {
+        $match: {
+            email: 'dladley0@washingtonpost.com'
+        }
+    },
+    {
+        $lookup: {
+            from: "additionalInfo", // jey collection er data copy kore anbo sey collection er name ai khane dite hobe
+            localField: "_id", // local field
+            foreignField: "userId", // forane field
+            as: "additionalInformation" // ki name field add hobe collecton a seyta aikhane dite hoy
+        }
+    }
+])
+
