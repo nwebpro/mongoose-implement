@@ -156,7 +156,11 @@ db.practice.aggregate([
     }
 ])
 
-// $unwide method er kaj hocche apner akta array ace friend name abong apni judi sey array te $unwind method apply koren tahole apner array te joto jon friend ace sobai k copy kore se akta akta kore data baniye nibe.
+/*
+$unwide method er kaj hocche apner akta array ace friend name abong
+apni judi sey array te $unwind method apply koren tahole apner array te 
+joto jon friend ace sobai k copy kore se akta akta kore data baniye nibe.
+*/
 db.practice.aggregate([
     {
         // unwind stage
@@ -173,7 +177,8 @@ db.practice.aggregate([
     }
 ])
 
-// $facet oparator er maddome apni apner aggregation a multiple stage pipeline line create korte parben ta niche example dewa ace 
+// $facet oparator er maddome apni apner aggregation a multiple stage
+// pipeline line create korte parben ta niche example dewa ace 
 db.practice.aggregate([
     {
         $match: {
@@ -226,7 +231,12 @@ db.practice.aggregate([
     }
 ])
 
-// $lookup operator hocche kono akta document theke kicho ber korte chayle amra lookup oparator use korte pari abong document ta kono akta field er sathe refarance thakte hobe abong lookup chalaite hole apnake 1 er odik collection thakte hobe abong sathe field name abong type same hote hobe nayto lookup oparator kaj korbe nah 
+/*$lookup operator hocche kono akta document theke kicho ber korte
+ chayle amra lookup oparator use korte pari abong document ta kono akta 
+ field er sathe refarance thakte hobe abong lookup chalaite hole apnake
+ 1 er odik collection thakte hobe abong sathe field name abong type 
+ same hote hobe nayto lookup oparator kaj korbe nah 
+*/
 db.practice.aggregate([
     {
         $match: {
